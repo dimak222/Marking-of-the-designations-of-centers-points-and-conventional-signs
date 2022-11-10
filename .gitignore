@@ -155,4 +155,5 @@ cython_debug/
 ~$*
 
 # My Test directory
-Тест/
+/Тест
+/Архив
