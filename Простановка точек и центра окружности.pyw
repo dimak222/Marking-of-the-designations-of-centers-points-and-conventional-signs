@@ -21,11 +21,11 @@ Point_var = True # ставить ли точки (True - да, False - нет)
 Associate_Point = True # параметризовать ли точки (True - да, False - нет)
 
 Delta = 0.01 #(мм). максимально допустимая разница координат центров/точек (если разница координат больше этой величины, центры/точки будет ставиться на каждый объект (0 - ставит точки на каждый объект))
-Circle = True # обрабатывать ли окружности (True - да, False - нет)
-Arc = True # обрабатывать ли дуги окружностей (True - да, False - нет)
-Ellipse = True # обрабатывать ли эллипсы (True - да, False - нет)
-Arc_ellipse = True # обрабатывать ли дуги эллипсов (True - да, False - нет)
-RegularPolygon = True # обрабатывать ли многоугольники (True - да, False - нет)
+Circle = False # обрабатывать ли окружности (True - да, False - нет)
+Arc = False # обрабатывать ли дуги окружностей (True - да, False - нет)
+Ellipse = False # обрабатывать ли эллипсы (True - да, False - нет)
+Arc_ellipse = False # обрабатывать ли дуги эллипсов (True - да, False - нет)
+RegularPolygon = False # обрабатывать ли многоугольники (True - да, False - нет)
 Rectangle = True # обрабатывать ли прямоугольники (True - да, False - нет)
 
 Style = "1-25" # стили линий объектов, "1-25" - все стили; "1-5,7,9" - стиль с 1-го по 5-й, 7-ой, 9-й; "1" - только основная, см. ksCurveStyleEnum
@@ -190,6 +190,13 @@ def View_processing(iView): # обработка всего вида
     if iView.Visible: # если вид видимый, используем его
 
         iDrawingContainer = KompasAPI7.IDrawingContainer(iView) # интерфейс контейнера объектов вида графического документа
+
+##        if Circle: # если обработка включена
+##            iObjects = iDrawingContainer.Objects(2) # получить массив объектов коллекции
+##
+##            if iObjects: # если есть объекты
+##                for OBJ in iObjects: # обработать каждый объект
+##                    R_X_Y_obg(OBJ) # получение координат, указатель на объект и указатенль на вид
 
         for obg in (2, 3, 36, 32, 34, 35): # перебор всех объектов (2 - окружность; 3 - дуга; 36 - многоугольник; 32 - элипс; 34 - дуга элипса; 35 - прямоугольник, см. DrawingObjectTypeEnum)
             iObjects = iDrawingContainer.Objects(obg) # получить массив объектов коллекции
