@@ -13,8 +13,8 @@ ver = "v0.6.0.0"
 All_iView = True # обрабатывать ли все видимые виды если ничего не выделоенно (True - да, False - нет)
 
 Centre_var = True # ставить ли обозначения центров (True - да, False - нет)
-Centre_Associate_ = True # параметризовать ли обозначения центров (True - да, False - нет)
 Centre_Angle = 0 # угол наклона обозначения центра (False = 0)
+Centre_Associate_ = True # параметризовать ли обозначения центров (True - да, False - нет)
 Centre_repeat = False # ставить ли обозначения центров на уже выделеные обозначения центров (True - да, False - нет)
 Сenter_on_point = False # ставить ли обозначение центров на точки (True - да, False - нет) параметризация точек и обозначения центров не работает! (для работы нужна опция Point_repeat = False и Centre_var = True)
 
@@ -24,11 +24,12 @@ Point_repeat = False # ставить ли точеки на уже выделе
 Point_on_center = False # ставить ли точки на обозначения центров (True - да, False - нет) параметризация точек и обозначения центров не работает! (для работы нужна опция Centre_repeat = False и Point_var = True)
 
 Conditional_sign_var = True # ставить ли условные знаки (True - да, False - нет)
+Conditional_sign_Angle = 0 # угол наклона обозначения центра (False = 0)
 Conditional_sign_list_name = {1:"Условный знак 1_1", 2:"Условный знак 1_2", 3:"Условный знак 1_3", 4:"Условный знак 1_4",
                               5:"Условный знак 2_1", 6:"Условный знак 2_2", 7:"Условный знак 2_3",
                               8:"Условный знак 3_1", 9:"Условный знак 3_2", 10:"Условный знак 3_3"} # имя условного знака, см. название в "Библиотека фигур и усовных знаков"
 Conditional_sign_name = Conditional_sign_list_name[1] # номер условного знака
-#Conditional_sign_Associate = True # параметризовать ли условные знаки (True - да, False - нет) (Опция не работает!)
+Conditional_sign_Associate = True # параметризовать ли условные знаки (True - да, False - нет) (Опция не работает!)
 Conditional_sign_repeat = False # ставить ли условные знаки на уже выделеные условные знаки (True - да, False - нет)
 Conditional_sign_on_point = False # ставить ли обозначение центров на точки (True - да, False - нет) параметризация точек и обозначения центров не работает! (для работы нужна опция Point_repeat = False и Conditional_sign_var = True)
 
@@ -513,7 +514,7 @@ def Conditional_sign(x, y, R, obj, iView): # простановка условн
     iFragmentDefinition = iFragment.ksFragmentDefinition(FileName, Conditional_sign_name, 0) # определить фрагмент для вставки (указатель на фрагмент) (имя файла фрагмента, имя вставки, тип вставки (0 - взять в документ, 1 - внешней ссылкой))
 
     iPlacementParam = iKompasObject.GetParamStruct(7) # интерфейс параметров местоположения (привязки)
-    iPlacementParam.angle = 0 # yгол поворота в системе координат вида
+    iPlacementParam.angle = Conditional_sign_Angle # yгол поворота в системе координат вида
     iPlacementParam.scale_ = 1 # масштаб
     iPlacementParam.xBase = x # координаты базовой точки в системе координат вида
     iPlacementParam.yBase = y # координаты базовой точки в системе координат вида
