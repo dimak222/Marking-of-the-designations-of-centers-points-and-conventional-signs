@@ -28,7 +28,7 @@ Conditional_sign_list_name = {1:"Условный знак 1_1", 2:"Условн
                               5:"Условный знак 2_1", 6:"Условный знак 2_2", 7:"Условный знак 2_3",
                               8:"Условный знак 3_1", 9:"Условный знак 3_2", 10:"Условный знак 3_3"} # имя условного знака, см. название в "Библиотека фигур и усовных знаков"
 Conditional_sign_name = Conditional_sign_list_name[1] # номер условного знака
-Conditional_sign_Associate = True # параметризовать ли условные знаки (True - да, False - нет)
+#Conditional_sign_Associate = True # параметризовать ли условные знаки (True - да, False - нет) (Опция не работает!)
 Conditional_sign_repeat = False # ставить ли условные знаки на уже выделеные условные знаки (True - да, False - нет)
 Conditional_sign_on_point = False # ставить ли обозначение центров на точки (True - да, False - нет) параметризация точек и обозначения центров не работает! (для работы нужна опция Point_repeat = False и Conditional_sign_var = True)
 
