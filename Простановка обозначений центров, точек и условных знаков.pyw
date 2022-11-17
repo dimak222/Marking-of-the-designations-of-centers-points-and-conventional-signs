@@ -1,9 +1,9 @@
-# Обсуждение Вконтакте  https://vk.com/topic-152266438_36152984
-# Обсуждение на форуме Аскон https://forum.ascon.ru/index.php?topic=29314.msg301216#msg301216
+# Обсуждение в ВК: https://vk.com/topic-152266438_36152984
+# Обсуждение на Форуме АСКОН: https://forum.ascon.ru/index.php?topic=29314.msg301240#msg301240
 #-------------------------------------------------------------------------------
 
-title = "Простановка обозначений центров, точек и условных знаков"
-ver = "v0.6.0.0"
+title = "Простановка ОЦ/Т/УЗ"
+ver = "v0.6.1.0"
 
 #------------------------------Настройки!---------------------------------------
 All_iView = True # обрабатывать ли все видимые виды если ничего не выделоенно (True - да, False - нет)
@@ -84,7 +84,7 @@ def KompasAPI(): # подключение API КОМПАСа
     from win32com.client import Dispatch, gencache # библиотека API Windows
     from sys import exit # для выхода из приложения без ошибки
 
-    def document_type(): # определение типа документа
+    def Document_type(): # определение типа документа
 
         from sys import exit # для выхода из приложения без ошибки
 
@@ -92,6 +92,7 @@ def KompasAPI(): # подключение API КОМПАСа
 
             msg = "Откройте чертёж!"
             Kompas_message(msg) # сообщение в компасе
+            Message(msg) # сообщение, поверх всех окон с автоматическим закрытием (текст, время закрытия)
             exit() # завершаем макрос
 
     try: # попытаться подключиться к КОМПАСу
@@ -114,22 +115,25 @@ def KompasAPI(): # подключение API КОМПАСа
         KompasAPI7 = gencache.EnsureModule('{69AC2981-37C0-4379-84FD-5DD2F3C0A520}', 0, 1, 0) # API7 КОМПАСа
         iApplication = Dispatch('Kompas.Application.7') # интерфейс приложения КОМПАС-3D.
 
+        if iApplication.Visible == False: # если компас невидимый
+            iApplication.Visible = True # сделать КОМПАС-3D видемым
+
         iKompasDocument = iApplication.ActiveDocument # делаем активный открытый документ
 
-        document_type() # определение типа документа
+        Document_type() # определение типа документа
 
         iDocument2D = iKompasObject.ActiveDocument2D() # указатель на интерфейс текущего графического документа
+
         iKompasDocument2D = KompasAPI7.IKompasDocument2D(iKompasDocument) # базовый класс графических документов КОМПАС
         iKompasDocument2D1 = KompasAPI7.IKompasDocument2D1(iKompasDocument) # дополнительный интерфейс IKompasDocument2D
 
         iViewsAndLayersManager = iKompasDocument2D.ViewsAndLayersManager # менеджер видов и слоев документа
         iViews = iViewsAndLayersManager.Views # коллекция видов
 
-        if iApplication.Visible == False: # если компас невидимый
-            iApplication.Visible = True # сделать КОМПАС-3D видемым
+    except SystemExit: # если ранее уже вышли из программы
+        exit() # выходим из програмы
 
     except: # если не получилось подключиться к КОМПАСу
-
         Message("КОМПАС-3D не найден!\nУстановите или переустановите КОМПАС-3D!") # сообщение, поверх всех окон с автоматическим закрытием
         exit() # выходим из програмы
 
