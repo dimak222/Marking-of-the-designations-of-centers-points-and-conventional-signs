@@ -6,7 +6,7 @@ from __future__ import unicode_literals # для работы Python 2.X с юн
 #-------------------------------------------------------------------------------
 
 title = "Простановка ОЦ/Т/УЗ"
-ver = "v0.6.3.0"
+ver = "v0.6.3.1"
 
 #------------------------------Настройки!---------------------------------------
 All_iView = True # обрабатывать ли все видимые виды если ничего не выделоенно (True - да, False - нет)
@@ -29,6 +29,11 @@ Conditional_sign_size = 0 # размер условного знака (0 - по
 Conditional_sign_list_name = {1:"Shapes_and_signs.kle|Условный знак 1_1.frw", 2:"Shapes_and_signs.kle|Условный знак 1_2.frw", 3:"Shapes_and_signs.kle|Условный знак 1_3.frw", 4:"Shapes_and_signs.kle|Условный знак 1_4.frw",
                               5:"Shapes_and_signs.kle|Условный знак 2_1.frw", 6:"Shapes_and_signs.kle|Условный знак 2_2.frw", 7:"Shapes_and_signs.kle|Условный знак 2_3.frw",
                               8:"Shapes_and_signs.kle|Условный знак 3_1.frw", 9:"Shapes_and_signs.kle|Условный знак 3_2.frw", 10:"Shapes_and_signs.kle|Условный знак 3_3.frw"} # имя условного знака, (имя библиотеки, имя знака (см. название в "Библиотека фигур и усовных знаков"))
+
+Conditional_sign_list_name_v16 = {1:"Shapes_and_signs.lfr||Условные знаки|Условный знак 1_1", 2:"Shapes_and_signs.lfr||Условные знаки|Условный знак 1_2", 3:"Shapes_and_signs.lfr||Условные знаки|Условный знак 1_3", 4:"Shapes_and_signs.lfr||Условные знаки|Условный знак 1_4",
+                                  5:"Shapes_and_signs.lfr||Условные знаки|Условный знак 2_1", 6:"Shapes_and_signs.lfr||Условные знаки|Условный знак 2_2", 7:"Shapes_and_signs.lfr||Условные знаки|Условный знак 2_3",
+                                  8:"Shapes_and_signs.lfr||Условные знаки|Условный знак 3_1", 9:"Shapes_and_signs.lfr||Условные знаки|Условный знак 3_2", 10:"Shapes_and_signs.lfr||Условные знаки|Условный знак 3_3"} # имя условного знака, (имя библиотеки, имя знака (см. название в "Библиотека фигур и усовных знаков"))
+
 Conditional_sign_name = Conditional_sign_list_name[1] # номер условного знака из списка
 Conditional_sign_Associate = True # параметризовать ли условные знаки (True - да, False - нет) (Опция не работает!)
 Conditional_sign_repeat = False # ставить ли условные знаки на уже выделеные условные знаки (True - да, False - нет)
@@ -86,6 +91,7 @@ def Сhecking_settings(): # проверка правильности введё
 
 def KompasAPI(): # подключение API КОМПАСа
 
+    import pythoncom # модуль для запуска без IDLE
     from win32com.client import Dispatch, gencache # библиотека API Windows
     from sys import exit # для выхода из приложения без ошибки
 
@@ -485,9 +491,8 @@ def Conditional_sign(x, y, R, obj, iView): # простановка условн
 
     iInsertionObject = insertionObjects.Add(iInsertionDefinition) # cоздать новый элемент и добавить его в коллекцию
     iInsertionObject.SetPlacement(x, y, Conditional_sign_Angle, False) # установить местоположение объекта (координата точки x, координата точки y, угол поворота объекта, признак зеркальной симметрии объекта).
-    print(x,y)
     iInsertionFragment = KompasAPI7.IInsertionFragment(iInsertionObject) # интерфейс вставки фрагментов (локальных и внешних).
-    ivariable7 = iInsertionFragment.Variable("D") # Получить параметрическую переменную по имени, индексу или указателю на размер
+    ivariable7 = iInsertionFragment.Variable(iInsertionFragment.Variables.Name) # Получить параметрическую переменную по имени, индексу или указателю на размер
 
     if Conditional_sign_size == 0: # если размер не указан - размер по объекту
         Type_obj = obj.DrawingObjectType # тип графических объектов
@@ -496,7 +501,7 @@ def Conditional_sign(x, y, R, obj, iView): # простановка условн
     else: # размер указан
         R = Conditional_sign_size / 2 # УЗ делаем по указанному значению
 
-    ivariable7.Value = R * 2 # изменить размер УЗ с учётом масштаба вида
+    ivariable7.Value = R * 2 # изменить размер УЗ
     iInsertionObject.Update() # приминить свойства
 
     if Conditional_sign_Associate: # параметризовать условное обозначение
